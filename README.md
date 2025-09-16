@@ -1,50 +1,70 @@
-# E-commerce SaaS - Plataforma Completa
+# ColheitaExpress - Plataforma de E-commerce Completa
 
-Este projeto é uma plataforma de e-commerce SaaS (Software as a Service) robusta e completa, desenvolvida com Python (Django/Django REST Framework) para o back-end e React para o front-end. Ele oferece interfaces diferenciadas para Administradores, Clientes e Motoristas, gestão de produtos, controle de estoque, sistema de pedidos e acompanhamento de entregas.
+![ColheitaExpress Logo](https://via.placeholder.com/200x80/4F46E5/FFFFFF?text=ColheitaExpress)
 
-## Funcionalidades Principais
+## 📋 Sobre o Projeto
 
-### Geral
-- **Arquitetura SaaS**: Projetado para ser escalável e multi-tenant (embora a implementação multi-tenant completa exija mais detalhes, a estrutura base está pronta).
-- **Responsividade**: Interface de usuário adaptável a diferentes tamanhos de tela (desktops, tablets, celulares).
-- **Segurança**: Sistema de autenticação e autorização robusto.
+O **ColheitaExpress** é uma plataforma de e-commerce completa e robusta, desenvolvida para oferecer uma experiência de compra online excepcional. O sistema inclui funcionalidades avançadas para gestão de produtos, pedidos, entregas, pagamentos e muito mais.
 
-### Back-end (Django/Django REST Framework)
-- **Gestão de Usuários**: Cadastro e gerenciamento de Administradores, Clientes e Motoristas.
-  - **Administrador**: Acesso total ao sistema, gestão de produtos, pedidos, entregas, usuários.
-  - **Cliente**: Visualização de produtos, realização de pedidos, acompanhamento de entregas, gestão de perfil.
-  - **Motorista**: Acesso a entregas atribuídas, detalhes do pedido e endereço de entrega.
-- **Gestão de Produtos**: Cadastro, edição e listagem de produtos.
-  - **Departamentos**: Categorização de produtos.
-  - **Controle de Estoque**: Sistema completo de movimentações de entrada, saída e ajustes.
-- **Sistema de Pedidos**: Criação, visualização, atualização de status e cancelamento de pedidos.
-- **Sistema de Entregas**: Atribuição de entregas a motoristas, rastreamento de status e acompanhamento pelo cliente.
-- **Banco de Dados Relacional**: Suporte a PostgreSQL (recomendado para produção) e SQLite (para desenvolvimento).
-- **API RESTful**: Endpoints bem definidos para todas as funcionalidades, facilitando a integração com o front-end e outras aplicações.
+### 🎯 Principais Funcionalidades
 
-### Front-end (React)
-- **Interfaces Diferenciadas**: Dashboards específicos para Administrador, Cliente e Motorista.
-- **Página Inicial (Landing Page)**: Design moderno e responsivo para apresentar o e-commerce.
-- **E-commerce Completo**: 
-  - **Catálogo de Produtos**: Listagem com filtros, busca e ordenação
-  - **Detalhes do Produto**: Página completa com especificações, avaliações e galeria de imagens
-  - **Carrinho de Compras**: Gestão de itens, quantidades e cupons de desconto
-  - **Checkout**: Processo completo de finalização com dados pessoais, endereço e pagamento
-  - **Confirmação de Pedido**: Página de sucesso com detalhes e acompanhamento
-- **Navegação Intuitiva**: Menus e rotas para facilitar o uso.
-- **Funcionalidades Avançadas**: 
-  - Sistema de avaliações e comentários
-  - Cupons de desconto
-  - Cálculo automático de frete e impostos
-  - Múltiplas formas de pagamento (cartão, PIX, boleto)
+- **Sistema de Usuários Completo**: Clientes, Administradores, Funcionários e Motoristas
+- **Gestão de Produtos**: CRUD completo com categorias, estoque e promoções
+- **Sistema de Pedidos**: Processamento completo com rastreamento em tempo real
+- **Múltiplos Métodos de Pagamento**: PIX, Cartão, Boleto, Carteira Digital
+- **Sistema de Entregas**: Interface para motoristas com validação digital
+- **Dashboard Administrativo**: Métricas e relatórios em tempo real
+- **Sistema de Avaliações**: Reviews e comentários dos clientes
+- **Notificações**: E-mail, SMS e notificações push
+- **API Segura**: JWT, HTTPS, proteção CSRF/XSS
+- **Sistema de Cupons**: Promoções e descontos automáticos
 
-## Tecnologias Utilizadas
+## 🏗️ Arquitetura do Sistema
 
-- **Back-end**: Python, Django, Django REST Framework
-- **Front-end**: React, Vite, React Router DOM
-- **Banco de Dados**: PostgreSQL (produção), SQLite (desenvolvimento)
-- **Estilização**: Tailwind CSS (via shadcn/ui)
-- **Gerenciador de Pacotes**: pnpm (Node.js)
+```
+ColheitaExpress/
+├── backend/                 # Django REST Framework
+│   ├── ecommerce_saas/     # Configurações principais
+│   ├── users/              # Sistema de usuários
+│   ├── products/           # Gestão de produtos
+│   ├── orders/             # Sistema de pedidos
+│   ├── deliveries/         # Gestão de entregas
+│   ├── payments/           # Sistema de pagamentos
+│   ├── coupons/            # Sistema de cupons
+│   ├── notifications/      # Sistema de notificações
+│   └── audit/              # Logs e auditoria
+├── frontend/               # React + Vite
+│   └── ecommerce-frontend/ # Interface do usuário
+├── docker/                 # Configurações Docker
+├── scripts/                # Scripts de deploy
+└── docs/                   # Documentação
+```
+
+## 🚀 Tecnologias Utilizadas
+
+### Backend
+- **Django 5.2** - Framework web robusto
+- **Django REST Framework** - API REST
+- **PostgreSQL** - Banco de dados principal
+- **Redis** - Cache e sessões
+- **Celery** - Tarefas assíncronas
+- **JWT** - Autenticação segura
+- **Docker** - Containerização
+
+### Frontend
+- **React 19** - Interface de usuário
+- **Vite** - Build tool moderno
+- **Tailwind CSS** - Framework CSS
+- **Radix UI** - Componentes acessíveis
+- **React Router** - Roteamento
+- **Recharts** - Gráficos e visualizações
+
+### Infraestrutura
+- **Docker & Docker Compose** - Containerização
+- **Nginx** - Proxy reverso
+- **PostgreSQL** - Banco de dados
+- **Redis** - Cache e filas
+- **Certbot** - Certificados SSL
 
 ## Configuração do Ambiente Local
 
@@ -193,3 +213,249 @@ Para fazer o deploy em um ambiente de produção, siga estas orientações:
 3.  **Deploy do Back-end**: O servidor Django servirá tanto a API quanto os arquivos estáticos do React.
 
 Lembre-se de que a configuração exata pode variar dependendo do provedor de hospedagem escolhido (Heroku, AWS, Google Cloud, DigitalOcean, etc.). Sempre consulte a documentação específica do seu provedor.
+
+## 📦 Instalação e Configuração
+
+### Pré-requisitos
+
+- Docker e Docker Compose
+- Node.js 18+ (para desenvolvimento)
+- Python 3.11+ (para desenvolvimento)
+
+### 🐳 Instalação com Docker (Recomendado)
+
+1. **Clone o repositório**
+```bash
+git clone https://github.com/DamasoSilva/ColheitaExpress.git
+cd ColheitaExpress
+```
+
+2. **Configure as variáveis de ambiente**
+```bash
+cp .env.example .env
+# Edite o arquivo .env com suas configurações
+```
+
+3. **Execute com Docker Compose**
+```bash
+docker-compose up -d
+```
+
+4. **Execute as migrações**
+```bash
+docker-compose exec backend python manage.py migrate
+docker-compose exec backend python manage.py createsuperuser
+```
+
+5. **Acesse a aplicação**
+- Frontend: http://localhost:3000
+- Backend API: http://localhost:8000
+- Admin: http://localhost:8000/admin
+
+### 💻 Instalação para Desenvolvimento
+
+#### Backend
+
+1. **Navegue para o diretório do backend**
+```bash
+cd backend
+```
+
+2. **Crie um ambiente virtual**
+```bash
+python -m venv venv
+source venv/bin/activate  # Linux/Mac
+# ou
+venv\Scripts\activate     # Windows
+```
+
+3. **Instale as dependências**
+```bash
+pip install -r requirements.txt
+```
+
+4. **Configure o banco de dados**
+```bash
+python manage.py migrate
+python manage.py createsuperuser
+```
+
+5. **Execute o servidor**
+```bash
+python manage.py runserver
+```
+
+#### Frontend
+
+1. **Navegue para o diretório do frontend**
+```bash
+cd frontend/ecommerce-frontend
+```
+
+2. **Instale as dependências**
+```bash
+pnpm install
+# ou
+npm install
+```
+
+3. **Execute o servidor de desenvolvimento**
+```bash
+pnpm dev
+# ou
+npm run dev
+```
+
+## 🔧 Configuração
+
+### Variáveis de Ambiente
+
+Crie um arquivo `.env` na raiz do projeto com as seguintes variáveis:
+
+```env
+# Django
+SECRET_KEY=sua_chave_secreta_aqui
+DEBUG=False
+ALLOWED_HOSTS=localhost,127.0.0.1,seu-dominio.com
+
+# Banco de Dados
+DATABASE_URL=postgresql://usuario:senha@localhost:5432/colheitaexpress
+
+# Redis
+REDIS_URL=redis://localhost:6379/0
+
+# Email
+EMAIL_HOST=smtp.gmail.com
+EMAIL_PORT=587
+EMAIL_USE_TLS=True
+EMAIL_HOST_USER=seu-email@gmail.com
+EMAIL_HOST_PASSWORD=sua-senha-app
+
+# Pagamentos
+STRIPE_PUBLIC_KEY=pk_test_...
+STRIPE_SECRET_KEY=sk_test_...
+
+# Frontend
+FRONTEND_URL=http://localhost:3000
+```
+
+## 🔐 Segurança
+
+O sistema implementa várias camadas de segurança:
+
+- **Autenticação JWT** com refresh tokens
+- **Proteção CSRF/XSS**
+- **Rate Limiting** para APIs
+- **Validação de entrada** rigorosa
+- **Logs de auditoria** completos
+- **Criptografia de senhas** com bcrypt
+- **HTTPS** obrigatório em produção
+
+## 📊 Monitoramento
+
+### Logs
+
+Os logs são organizados em diferentes níveis:
+
+- **INFO**: Operações normais
+- **WARNING**: Situações que requerem atenção
+- **ERROR**: Erros que precisam ser corrigidos
+- **DEBUG**: Informações detalhadas para desenvolvimento
+
+### Métricas
+
+O dashboard administrativo inclui:
+
+- Total de usuários, pedidos e produtos
+- Vendas por período
+- Produtos mais vendidos
+- Performance de entregas
+- Métricas de pagamento
+
+## 🧪 Testes
+
+### Backend
+
+```bash
+cd backend
+python manage.py test
+```
+
+### Frontend
+
+```bash
+cd frontend/ecommerce-frontend
+pnpm test
+```
+
+### Testes E2E
+
+```bash
+pnpm test:e2e
+```
+
+## 🚀 Deploy em Produção
+
+### Deploy com Docker
+
+1. **Configure o ambiente de produção**
+```bash
+cp .env.example .env.production
+# Configure as variáveis para produção
+```
+
+2. **Execute o deploy**
+```bash
+docker-compose -f docker-compose.prod.yml up -d
+```
+
+### Deploy Manual
+
+Consulte o arquivo `docs/DEPLOY.md` para instruções detalhadas de deploy manual.
+
+## 📚 Documentação
+
+- [Guia de Instalação](docs/INSTALLATION.md)
+- [Guia de Deploy](docs/DEPLOY.md)
+- [Documentação da API](docs/API.md)
+- [Guia de Contribuição](docs/CONTRIBUTING.md)
+- [Troubleshooting](docs/TROUBLESHOOTING.md)
+
+## 🤝 Contribuição
+
+1. Faça um fork do projeto
+2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
+3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
+4. Push para a branch (`git push origin feature/AmazingFeature`)
+5. Abra um Pull Request
+
+## 📄 Licença
+
+Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](LICENSE) para detalhes.
+
+## 👥 Equipe
+
+- **Desenvolvedor Principal**: [Damaso Silva](https://github.com/DamasoSilva)
+
+## 📞 Suporte
+
+Para suporte técnico ou dúvidas:
+
+- 📧 Email: suporte@colheitaexpress.com
+- 💬 Discord: [Link do Discord]
+- 📱 WhatsApp: +55 (11) 99999-9999
+
+## 🔄 Changelog
+
+### v1.0.0 (2024-09-16)
+- ✨ Lançamento inicial
+- 🔐 Sistema de autenticação completo
+- 🛒 Sistema de e-commerce funcional
+- 📱 Interface responsiva
+- 🚚 Sistema de entregas
+- 💳 Múltiplos métodos de pagamento
+
+---
+
+**ColheitaExpress** - Sua plataforma de e-commerce completa e robusta! 🚀
+

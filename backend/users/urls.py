@@ -16,6 +16,10 @@ urlpatterns = [
     path('profile/detail/', views.UserProfileDetailView.as_view(), name='profile_detail'),
     path('change-password/', views.change_password_view, name='change_password'),
     
+    # Recuperação de senha
+    path('password-reset/', views.password_reset_request, name='password_reset_request'),
+    path('password-reset-confirm/', views.password_reset_confirm, name='password_reset_confirm'),
+    
     # Dashboard
     path('dashboard-data/', views.user_dashboard_data, name='dashboard_data'),
 ]
