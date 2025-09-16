@@ -1,0 +1,77 @@
+# =====================
+# Django / Python
+# =====================
+*.py[cod]
+__pycache__/
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+*.log
+
+# Environment
+.env
+*.env
+venv/
+env/
+.venv/
+
+# Django
+*.sqlite3
+db.sqlite3
+/staticfiles/
+media/
+
+# Migrations (opcional, se quiser versionar migrations)
+# */migrations/*.py
+# !*/migrations/__init__.py
+
+# =====================
+# Node / React / PNPM
+# =====================
+frontend/ecommerce-frontend/node_modules/
+frontend/ecommerce-frontend/dist/
+frontend/ecommerce-frontend/.turbo/
+frontend/ecommerce-frontend/.pnp.*
+frontend/ecommerce-frontend/.next/
+frontend/ecommerce-frontend/.cache/
+frontend/ecommerce-frontend/.vite/
+frontend/ecommerce-frontend/build/
+frontend/ecommerce-frontend/.env
+frontend/ecommerce-frontend/.DS_Store
+
+# PNPM store (opcional, geralmente não é versionado)
+.pnpm-store/
+
+# =====================
+# OS / Editor / IDE
+# =====================
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*.sublime-workspace
+*.sublime-project
+.idea/
+.vscode/
+*.log
+
+# =====================
+# VSCode / JetBrains
+# =====================
+.vscode/
+*.code-workspace
+
+# =====================
+# Line endings
+# =====================
+# Force Git to handle line endings correctly
+*.bat text eol=crlf
+*.sh text eol=lf
+*.py text eol=lf
+*.js text eol=lf
+*.css text eol=lf
+*.html text eol=lf
+*.json text eol=lf
