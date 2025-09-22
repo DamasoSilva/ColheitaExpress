@@ -153,6 +153,8 @@ cd ../frontend/ecommerce-frontend
 #### 3.1. Instalar Dependências
 ```bash
 pnpm install
+# Ou, se preferir usar npm:
+npm install
 ```
 
 #### 3.2. Iniciar o Servidor Front-end
