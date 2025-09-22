@@ -557,7 +557,7 @@ function App() {
             setCurrentView={setCurrentView}
             cartItems={cartItems}
             onCartClick={handleCartClick}
-            onAddToCart={handleAddToCart}
+            onAddToCart={addToCart}
             onViewProduct={handleViewProduct}
             onShopNow={handleShopNow}
           />
@@ -574,7 +574,7 @@ function App() {
               cartItems={cartItems}
               onCartClick={handleCartClick}
             />
-            <ProductList onAddToCart={handleAddToCart} onViewProduct={handleViewProduct} />
+            <ProductList onAddToCart={addToCart} onViewProduct={handleViewProduct} />
           </div>
         );
       
@@ -591,7 +591,7 @@ function App() {
             />
             <ProductDetail 
               productId={selectedProductId}
-              onAddToCart={handleAddToCart}
+              onAddToCart={addToCart}
               onBack={() => setCurrentView('products')}
             />
           </div>
@@ -677,7 +677,7 @@ function App() {
             setCurrentView={setCurrentView}
             cartItems={cartItems}
             onCartClick={handleCartClick}
-            onAddToCart={handleAddToCart}
+            onAddToCart={addToCart}
             onViewProduct={handleViewProduct}
             onShopNow={handleShopNow}
           />
