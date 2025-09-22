@@ -10,7 +10,10 @@ const ShoppingCartComponent = ({ cartItems, onUpdateQuantity, onRemoveItem, onCh
   const [couponCode, setCouponCode] = useState('');
   const [discount, setDiscount] = useState(0);
 
-  const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  const subtotal = cartItems.reduce((sum, item) => {
+    const price = parseFloat(item.current_price || item.price);
+    return sum + (price * item.quantity);
+  }, 0);
   const shipping = subtotal > 100 ? 0 : 15.00; // Frete grátis acima de R$ 100
   const tax = subtotal * 0.05; // 5% de impostos
   const total = subtotal + shipping + tax - discount;
@@ -79,7 +82,7 @@ const ShoppingCartComponent = ({ cartItems, onUpdateQuantity, onRemoveItem, onCh
                     {/* Informações do Produto */}
                     <div className="flex-1">
                       <h3 className="font-semibold text-lg">{item.name}</h3>
-                      <p className="text-gray-600 text-sm">{item.department?.name}</p>
+                      <p className="text-gray-600 text-sm">{item.department_name || item.department?.name}</p>
                       <div className="flex items-center mt-2">
                         <Badge variant="outline" className="text-xs">
                           Em estoque: {item.stock_quantity}
@@ -120,10 +123,10 @@ const ShoppingCartComponent = ({ cartItems, onUpdateQuantity, onRemoveItem, onCh
                     {/* Preço */}
                     <div className="text-right">
                       <div className="font-semibold text-lg">
-                        R$ {(item.price * item.quantity).toFixed(2)}
+                        R$ {(parseFloat(item.current_price || item.price) * item.quantity).toFixed(2)}
                       </div>
                       <div className="text-sm text-gray-600">
-                        R$ {item.price.toFixed(2)} cada
+                        R$ {parseFloat(item.current_price || item.price).toFixed(2)} cada
                       </div>
                     </div>
 

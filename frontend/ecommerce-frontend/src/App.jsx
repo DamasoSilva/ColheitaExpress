@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from './components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './components/ui/card';
 import { Badge } from './components/ui/badge';
@@ -11,6 +11,7 @@ import ProductDetail from './components/ProductDetail';
 import ShoppingCartComponent from './components/ShoppingCart';
 import Checkout from './components/Checkout';
 import OrderConfirmation from './components/OrderConfirmation';
+import ApiService from './services/api';
 import './App.css';
 
 // Componente de Header
@@ -36,7 +37,7 @@ function Header({ userType, setUserType, currentView, setCurrentView, cartItems,
           {/* Logo */}
           <div className="flex items-center">
             <div className="flex-shrink-0 cursor-pointer" onClick={() => setCurrentView('landing')}>
-              <h1 className="text-2xl font-bold text-primary">E-commerce SaaS</h1>
+              <h1 className="text-2xl font-bold text-primary">ColheitaExpress</h1>
             </div>
           </div>
 
@@ -149,10 +150,10 @@ function HeroSection({ onShopNow }) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center">
           <h1 className="text-4xl md:text-6xl font-bold mb-6">
-            Sua Plataforma de E-commerce Completa
+            Hortifruti Online com Entrega Rápida
           </h1>
           <p className="text-xl md:text-2xl mb-8 text-white/90">
-            Gerencie produtos, pedidos e entregas em uma única plataforma robusta e escalável
+            Produtos frescos e selecionados direto do produtor para sua mesa
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" variant="secondary" className="text-lg px-8 py-3" onClick={onShopNow}>
@@ -173,23 +174,23 @@ function FeaturesSection() {
   const features = [
     {
       icon: Package,
-      title: "Gestão de Produtos",
-      description: "Controle completo de estoque, departamentos e promoções com interface intuitiva."
+      title: "Produtos Frescos",
+      description: "Frutas, verduras e legumes selecionados diariamente com garantia de qualidade."
     },
     {
       icon: ShoppingCart,
-      title: "Sistema de Pedidos",
-      description: "Processamento eficiente de pedidos com múltiplos métodos de pagamento."
+      title: "Compra Fácil",
+      description: "Processo de compra simples e rápido com múltiplas formas de pagamento."
     },
     {
       icon: Truck,
-      title: "Rastreamento de Entregas",
-      description: "Acompanhamento em tempo real das entregas com interface para motoristas."
+      title: "Entrega Rápida",
+      description: "Entrega no mesmo dia para produtos frescos com embalagem adequada."
     },
     {
       icon: User,
-      title: "Múltiplos Perfis",
-      description: "Interfaces específicas para administradores, clientes e motoristas."
+      title: "Atendimento Personalizado",
+      description: "Suporte especializado para ajudar na escolha dos melhores produtos."
     }
   ];
 
@@ -198,10 +199,10 @@ function FeaturesSection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            Funcionalidades Principais
+            Por que Escolher o ColheitaExpress?
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Uma plataforma completa com todas as ferramentas necessárias para seu e-commerce
+            Qualidade, frescor e conveniência em cada compra
           </p>
         </div>
 
@@ -229,64 +230,113 @@ function FeaturesSection() {
 
 // Componente de Produtos em Destaque
 function FeaturedProducts({ onAddToCart, onViewProduct }) {
-  const products = [
-    {
-      id: 1,
-      name: "Smartphone Premium",
-      price: 1299.99,
-      originalPrice: 1499.99,
-      image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=300&h=300&fit=crop",
-      rating: 4.8,
-      reviews: 124,
-      badge: "Promoção",
-      stock_quantity: 15,
-      department: { name: "Eletrônicos" }
-    },
-    {
-      id: 2,
-      name: "Notebook Gamer",
-      price: 2499.99,
-      image: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=300&h=300&fit=crop",
-      rating: 4.9,
-      reviews: 89,
-      badge: "Destaque",
-      stock_quantity: 8,
-      department: { name: "Eletrônicos" }
-    },
-    {
-      id: 3,
-      name: "Fone Bluetooth",
-      price: 199.99,
-      originalPrice: 249.99,
-      image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300&h=300&fit=crop",
-      rating: 4.7,
-      reviews: 256,
-      badge: "Oferta",
-      stock_quantity: 25,
-      department: { name: "Eletrônicos" }
-    },
-    {
-      id: 4,
-      name: "Smart Watch",
-      price: 399.99,
-      image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=300&h=300&fit=crop",
-      rating: 4.6,
-      reviews: 178,
-      badge: "Novo",
-      stock_quantity: 12,
-      department: { name: "Eletrônicos" }
-    }
-  ];
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const loadFeaturedProducts = async () => {
+      try {
+        setLoading(true);
+        const response = await ApiService.getFeaturedProducts();
+        setProducts(response.results || []);
+      } catch (err) {
+        console.error('Erro ao carregar produtos em destaque:', err);
+        setError('Erro ao carregar produtos');
+        // Fallback para dados estáticos em caso de erro
+        setProducts([
+          {
+            id: 1,
+            name: "Banana Prata",
+            price: 4.99,
+            originalPrice: 6.99,
+            image: "/images/banana.jpg",
+            rating: 4.8,
+            reviews: 124,
+            badge: "Promoção",
+            stock_quantity: 50,
+            department: { name: "Frutas" },
+            unit: "kg"
+          },
+          {
+            id: 2,
+            name: "Tomate Italiano",
+            price: 8.99,
+            image: "/images/tomato.jpg",
+            rating: 4.9,
+            reviews: 89,
+            badge: "Fresco",
+            stock_quantity: 30,
+            department: { name: "Legumes" },
+            unit: "kg"
+          },
+          {
+            id: 3,
+            name: "Alface Americana",
+            price: 3.49,
+            originalPrice: 4.99,
+            image: "/images/lettuce.jpg",
+            rating: 4.7,
+            reviews: 256,
+            badge: "Oferta",
+            stock_quantity: 25,
+            department: { name: "Verduras" },
+            unit: "unidade"
+          },
+          {
+            id: 4,
+            name: "Laranja Lima",
+            price: 5.99,
+            image: "/images/orange.jpg",
+            rating: 4.6,
+            reviews: 178,
+            badge: "Doce",
+            stock_quantity: 40,
+            department: { name: "Frutas" },
+            unit: "kg"
+          }
+        ]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadFeaturedProducts();
+  }, []);
+
+  if (loading) {
+    return (
+      <section className="py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <p>Carregando produtos...</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section className="py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <p className="text-red-600">{error}</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            Produtos em Destaque
+            Produtos Frescos em Destaque
           </h2>
           <p className="text-xl text-gray-600">
-            Confira nossa seleção especial de produtos
+            Selecionados especialmente para você
           </p>
         </div>
 
@@ -295,7 +345,7 @@ function FeaturedProducts({ onAddToCart, onViewProduct }) {
             <Card key={product.id} className="group hover:shadow-xl transition-all duration-300 overflow-hidden">
               <div className="relative cursor-pointer" onClick={() => onViewProduct(product.id)}>
                 <img 
-                  src={product.image} 
+                  src={product.primary_image || product.image || "/images/placeholder.jpg"} 
                   alt={product.name}
                   className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
                 />
@@ -303,7 +353,7 @@ function FeaturedProducts({ onAddToCart, onViewProduct }) {
                   variant={product.badge === 'Promoção' ? 'destructive' : 'secondary'}
                   className="absolute top-2 left-2"
                 >
-                  {product.badge}
+                  {product.badge || 'Fresco'}
                 </Badge>
               </div>
               
@@ -318,25 +368,29 @@ function FeaturedProducts({ onAddToCart, onViewProduct }) {
                     {[...Array(5)].map((_, i) => (
                       <Star 
                         key={i} 
-                        className={`h-4 w-4 ${i < Math.floor(product.rating) ? 'text-yellow-400 fill-current' : 'text-gray-300'}`} 
+                        className={`h-4 w-4 ${i < Math.floor(product.rating || 4.5) ? 'text-yellow-400 fill-current' : 'text-gray-300'}`} 
                       />
                     ))}
                   </div>
-                  <span className="text-sm text-gray-600 ml-2">({product.reviews})</span>
+                  <span className="text-sm text-gray-600 ml-2">({product.reviews || 0})</span>
                 </div>
                 
                 <div className="flex items-center justify-between">
                   <div>
                     <span className="text-2xl font-bold text-primary">
-                      R$ {product.price.toFixed(2)}
+                      R$ {parseFloat(product.current_price || product.price).toFixed(2)}
                     </span>
+                    <span className="text-sm text-gray-500 ml-1">/{product.unit || 'kg'}</span>
                     {product.originalPrice && (
                       <span className="text-sm text-gray-500 line-through ml-2">
-                        R$ {product.originalPrice.toFixed(2)}
+                        R$ {parseFloat(product.originalPrice).toFixed(2)}
                       </span>
                     )}
                   </div>
-                  <Button size="sm" className="ml-2" onClick={() => onAddToCart(product)}>
+                  <Button size="sm" className="ml-2" onClick={(e) => {
+                    e.stopPropagation();
+                    onAddToCart(product);
+                  }}>
                     <ShoppingCart className="h-4 w-4" />
                   </Button>
                 </div>
@@ -356,19 +410,19 @@ function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
-            <h3 className="text-xl font-bold mb-4">E-commerce SaaS</h3>
+            <h3 className="text-xl font-bold mb-4">ColheitaExpress</h3>
             <p className="text-gray-400">
-              Plataforma completa para seu negócio online com gestão integrada de produtos, pedidos e entregas.
+              Hortifruti online com produtos frescos e entrega rápida. Qualidade garantida direto do produtor para sua mesa.
             </p>
           </div>
           
           <div>
             <h4 className="font-semibold mb-4">Produtos</h4>
             <ul className="space-y-2 text-gray-400">
-              <li><a href="#" className="hover:text-white transition-colors">Eletrônicos</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Informática</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Casa & Jardim</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Esportes</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Frutas</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Verduras</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Legumes</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Orgânicos</a></li>
             </ul>
           </div>
           
@@ -394,7 +448,7 @@ function Footer() {
         </div>
         
         <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-          <p>&copy; 2024 E-commerce SaaS. Todos os direitos reservados.</p>
+          <p>&copy; 2024 ColheitaExpress. Todos os direitos reservados.</p>
         </div>
       </div>
     </footer>
@@ -431,19 +485,26 @@ function App() {
   const [selectedProductId, setSelectedProductId] = useState(null);
   const [orderData, setOrderData] = useState(null);
 
-  const handleAddToCart = (product) => {
-    const existingItem = cartItems.find(item => item.id === product.id);
-    
-    if (existingItem) {
-      setCartItems(cartItems.map(item =>
-        item.id === product.id
-          ? { ...item, quantity: item.quantity + (product.quantity || 1) }
-          : item
-      ));
-    } else {
-      setCartItems([...cartItems, { ...product, quantity: product.quantity || 1 }]);
-    }
-    
+  const addToCart = (product) => {
+    setCartItems(prevItems => {
+      const existingItem = prevItems.find(item => item.id === product.id);
+      if (existingItem) {
+        return prevItems.map(item =>
+          item.id === product.id 
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        );
+      } else {
+        return [...prevItems, { 
+          ...product, 
+          quantity: 1,
+          // Garantir que temos os campos necessários
+          current_price: product.current_price || product.price,
+          department_name: product.department_name || product.department?.name,
+          stock_quantity: product.stock_quantity || 0
+        }];
+      }
+    });
     alert(`${product.name} adicionado ao carrinho!`);
   };
 

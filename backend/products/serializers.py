@@ -62,29 +62,22 @@ class ProductListSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'name', 'slug', 'price', 'current_price', 'department_name',
             'primary_image', 'stock_quantity', 'is_in_stock', 'is_active',
-            'created_at', 'rating', 'reviews_count'
+            'created_at'
         ]
     
     def get_primary_image(self, obj):
-        primary_image = obj.images.filter(is_primary=True).first()
-        if primary_image:
-            return primary_image.image.url if primary_image.image else None
+        if obj.main_image:
+            return obj.main_image.url
         return None
     
     def get_current_price(self, obj):
         return obj.price
     
     def get_stock_quantity(self, obj):
-        try:
-            return obj.inventory.quantity
-        except:
-            return 0
+        return obj.stock_quantity
     
     def get_is_in_stock(self, obj):
-        try:
-            return obj.inventory.quantity > 0
-        except:
-            return False
+        return obj.is_in_stock
 
 
 class ProductDetailSerializer(serializers.ModelSerializer):

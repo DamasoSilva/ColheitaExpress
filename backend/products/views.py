@@ -55,8 +55,8 @@ class ProductListView(generics.ListAPIView):
     serializer_class = ProductListSerializer
     permission_classes = [AllowAny]
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
-    search_fields = ['name', 'description', 'brand', 'model']
-    ordering_fields = ['name', 'price', 'created_at', 'rating']
+    search_fields = ['name', 'description']
+    ordering_fields = ['name', 'price', 'created_at']
     ordering = ['-created_at']
     
     def get_queryset(self):
@@ -77,7 +77,11 @@ class ProductListView(generics.ListAPIView):
         
         in_stock = self.request.query_params.get('in_stock')
         if in_stock and in_stock.lower() == 'true':
-            queryset = queryset.filter(inventory__quantity__gt=0)
+            # Filtrar produtos que têm estoque
+            from django.db.models import Sum
+            queryset = queryset.annotate(
+                total_stock=Sum('stock__quantity')
+            ).filter(total_stock__gt=0)
         
         is_featured = self.request.query_params.get('is_featured')
         if is_featured and is_featured.lower() == 'true':
