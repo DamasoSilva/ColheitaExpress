@@ -72,15 +72,15 @@ def login_view(request):
     if serializer.is_valid():
         user = serializer.validated_data['user']
         
-        # Log de auditoria
-        if AuditLog:
-            AuditLog.log_action(
-                user=user,
-                action='login',
-                description=f'Login realizado por {user.email}',
-                user_ip=request.META.get('REMOTE_ADDR'),
-                user_agent=request.META.get('HTTP_USER_AGENT')
-            )
+        # Log de auditoria (desabilitado temporariamente)
+        # if AuditLog:
+        #     AuditLog.log_action(
+        #         user=user,
+        #         action='login',
+        #         description=f'Login realizado por {user.email}',
+        #         user_ip=request.META.get('REMOTE_ADDR'),
+        #         user_agent=request.META.get('HTTP_USER_AGENT')
+        #     )
         
         # Gerar token JWT
         refresh = RefreshToken.for_user(user)
